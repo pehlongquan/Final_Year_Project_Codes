@@ -1,0 +1,424 @@
+<?xml version="1.0" ?>
+<!-- This is a simple rectangular model to test the buoyancy plugin -->
+<sdf version="1.7">
+    <world name="car_world">
+        <scene>
+            <!-- For turquoise ambient -->
+            <ambient>0.0 1.0 1.0</ambient>
+            <background>0.0 0.7 0.8</background>
+        </scene>
+
+        <physics name="1ms" type="ode">
+            <max_step_size>0.001</max_step_size>
+            <real_time_factor>1.0</real_time_factor>
+        </physics>
+        <plugin
+            filename="libignition-gazebo-physics-system"
+            name="ignition::gazebo::systems::Physics">
+        </plugin>
+        <plugin
+            filename="libignition-gazebo-user-commands-system"
+            name="ignition::gazebo::systems::UserCommands">
+        </plugin>
+        <plugin
+            filename="libignition-gazebo-scene-broadcaster-system"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+        </plugin>
+
+		<!--adding buoyancy
+		
+		<graded_buoyancy>
+  				<default_density>1</default_density>s
+  				<density_change>
+    				<above_depth>3</above_depth>
+    				<density>1</density>
+  				</density_change>
+			</graded_buoyancy>
+		
+		<uniform_fluid_density>1000</uniform_fluid_density>
+		-->
+		<!-- <plugin
+			filename="ignition-gazebo-buoyancy-system"
+			name="ignition::gazebo::systems::Buoyancy">
+			
+			<graded_buoyancy>
+  				<default_density>1000</default_density>
+  				<density_change>
+    				<above_depth>-7</above_depth>
+    				<density>1</density>
+  				</density_change>
+			</graded_buoyancy>
+			
+
+			<enable>exp_rig</enable>
+			<enable>ball::body</enable>
+			
+		</plugin> -->
+		
+
+		<!--
+		<plugin name="underwater_current_plugin" filename="libuuv_underwater_current_ros_plugin.so">
+      		<namespace>hydrodynamics</namespace>
+      		<constant_current>
+        		<topic>current_velocity</topic>
+        		<velocity>
+          			<mean>0</mean>
+          			<min>0</min>
+          			<max>5</max>
+          			<mu>0.0</mu>
+          			<noiseAmp>0.0</noiseAmp>
+        		</velocity>
+
+				<horizontal_angle>
+          			<mean>0</mean>
+          			<min>-3.141592653589793238</min>
+          			<max>3.141592653589793238</max>
+          			<mu>0.0</mu>
+          			<noiseAmp>0.0</noiseAmp>
+        		</horizontal_angle>
+
+        		<vertical_angle>
+          			<mean>0</mean>
+          			<min>-3.141592653589793238</min>
+          			<max>3.141592653589793238</max>
+          <mu>0.0</mu>
+          <noiseAmp>0.0</noiseAmp>
+        </vertical_angle>
+      </constant_current>
+    </plugin>
+		
+
+        <include>
+            <uri>model://sea_bottom</uri>
+            <pose>0 0 5 0 0 0</pose>
+        </include>
+        -->
+		<!-- <model name="fluid_volume">
+			<pose>0 0 0 0 0 0</pose>
+			<link name="link">
+			<inertial>
+				<mass>1</mass>
+				<inertia>
+				<ixx>1</ixx>
+				<ixy>0</ixy>
+				<ixz>0</ixz>
+				<iyy>1</iyy>
+				<iyz>0</iyz>
+				<izz>1</izz>
+				</inertia>
+			</inertial>
+			<collision name="collision">
+				<geometry>
+				<box>
+					<size>10 10 10</size>
+				</box>
+				</geometry>
+			</collision>
+			<visual name="visual">
+				<geometry>
+				<box>
+					<size>10 10 10</size>
+				</box>
+				</geometry>
+				<material>
+				<script>
+					<name>Gazebo/Blue</name>
+					<uri>file://media/materials/scripts/gazebo.material</uri>
+				</script>
+				</material>
+			</visual>
+			<buoyancy>
+				<fluid name="water">
+				<density>1000</density>
+				<kinematic_viscosity>0.000001</kinematic_viscosity>
+				</fluid>
+				<volume>1000</volume>
+			</buoyancy>
+			</link>
+		</model> -->
+
+        <light type="directional" name="sun">
+            <cast_shadows>true</cast_shadows>
+            <pose>0 0 10 0 0 0</pose>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.2 0.2 0.2 1</specular>
+            <attenuation>
+                <range>1000</range>
+                <constant>0.9</constant>
+                <linear>0.01</linear>
+                <quadratic>0.001</quadratic>
+            </attenuation>
+            <direction>-0.5 0.1 -0.9</direction>
+        </light>
+
+        <model name="ground_plane">
+            <static>true</static>
+            <link name="link">
+                <collision name="collision">
+                <geometry>
+                    <plane>
+                    <normal>0 0 1</normal>
+                    </plane>
+                </geometry>
+                </collision>
+                <visual name="visual">
+                <geometry>
+                    <plane>
+                    <normal>0 0 1</normal>
+                    <size>300 300</size>
+                    </plane>
+                </geometry>
+                <material>
+                    <ambient>0.8 0.8 0.8 1</ambient>
+                    <diffuse>0.8 0.8 0.8 1</diffuse>
+                    <specular>0.8 0.8 0.8 1</specular>
+                </material>
+                </visual>
+            </link>
+        </model>
+
+		<!--
+		<model name="ball">
+			<link name='body'>
+				<pose>0 5 0 0 0 0</pose>
+				<inertial>
+					<mass>25</mass>
+					<inertia>
+					<ixx>86.28907821859966</ixx>
+					<ixy>0</ixy>
+					<ixz>0</ixz>
+					<iyy>86.28907821859966</iyy>
+					<iyz>0</iyz>
+					<izz>5.026548245743671</izz>
+					</inertia>
+				</inertial>
+
+				<visual name='body_visual'>
+					<geometry>
+						<sphere>
+							<radius>0.2</radius>
+						</sphere>
+					</geometry>
+				</visual>
+				<collision name='body_collision'>
+					<geometry>
+						<sphere>
+							<radius>0.2</radius>
+						</sphere>
+					</geometry>
+				</collision>
+			</link>
+		</model>
+		-->
+		
+        <model name='exp_rig'>
+    	    <pose relative_to='world'>0 0 0 0 0 0</pose>
+    	    
+    	    <link name="blue_foam_base">
+				<buoyancy>
+					<fluid density="1000" />
+					<volume>100</volume>
+				</buoyancy>
+                <pose relative_to='__model__'>0 0 1.2 0 0 0</pose>
+                <inertial> 
+					<mass>1</mass>
+					<inertia>
+						<ixx>0.095329</ixx>
+						<ixy>0</ixy>
+						<ixz>0</ixz>
+						<iyy>0.381317</iyy>
+						<iyz>0</iyz>
+						<izz>0.476646</izz>
+					</inertia>
+				</inertial>
+				<visual name='visual'>
+					<geometry>
+						<box>
+							<size>0.6 0.37 0.05</size>
+						</box>
+					</geometry>
+					<material>
+						<ambient>0.0 0.0 0.8 1</ambient>
+						<diffuse>0.0 0.0 0.8 1</diffuse>
+						<specular>0.0 0.0 0.8 1</specular>
+					</material>
+				</visual>
+				<collision name='collision'>
+					<geometry>
+						<box>
+							<size>0.6 0.37 0.05</size>
+						</box>
+					</geometry>
+				</collision>
+			</link>
+			<link name="buoyant_link">
+			<buoyancy>
+				<fluid density="1000" />
+				<volume>100</volume>
+			</buoyancy>
+		</link>
+
+			
+            <link name='vertical_metal_rod'>
+				<pose relative_to="blue_foam_base">0 0 -0.6 0 0 0</pose>
+				<inertial>
+					<mass>5.764</mass>
+					<inertia>
+						<ixx>0.043333</ixx>
+						<ixy>0</ixy>
+						<ixz>0</ixz>
+						<iyy>0.043333</iyy>
+						<iyz>0</iyz>
+						<izz>0.08</izz>
+					</inertia>
+				</inertial>
+				<visual name='visual'>
+					<geometry>
+						<box>
+							<size>0.03 0.03 1.2</size>
+						</box>
+					</geometry>
+					<material>
+						<ambient>0.1 0.1 0.1 1</ambient>
+						<diffuse>0.1 0.1 0.1 1</diffuse>
+						<specular>0.1 0.1 0.1 1</specular>
+					</material>
+				</visual>
+				<collision name='collision'>
+					<geometry>
+						<box>
+							<size>0.03 0.03 1.2</size>
+						</box>
+					</geometry>
+				</collision>
+	    	</link>
+
+            <joint name='vertical_link_joint' type='fixed'>
+    			<pose relative_to='vertical_metal_rod'/>
+				<parent>blue_foam_base</parent>
+    			<child>vertical_metal_rod</child>
+			</joint>
+			
+			<!--
+			<plugin filename="freebuoyancy_gazebo" name="libfreebuoyancy_gazebo.so">
+				<descriptionParam>robot_description</descriptionParam>
+				<fluidTopic>current</fluidTopic>
+				<alwaysOn>true</alwaysOn>
+				<surface>0 0 0</surface>
+				<updateRate>.001</updateRate>
+				<link name='blue_foam_base'>
+					<buoyancy>
+					<compensation>1.0</compensation>
+					<origin xyz='0 0 0'/>
+					 this changes the level at which the device floats
+					</buoyancy>
+				</link>
+			</plugin>
+			-->
+			
+
+            <!-- crashes likely due to some error here. need to figure out how
+            to get these values
+			
+			<xDotU>1.8686</xDotU>
+			<xUU>-0.002859</xUU>
+            <xU>-1.024</xU>
+			-->
+            
+            <plugin
+                filename="ignition-gazebo-hydrodynamics-system"
+                name="ignition::gazebo::systems::Hydrodynamics">
+                <link_name>blue_foam_base</link_name>
+                <xDotU>1.8686</xDotU>
+                <yDotV>0</yDotV>
+                <zDotW>0</zDotW>
+                <kDotP>0</kDotP>
+                <mDotQ>0</mDotQ>
+                <nDotR>0</nDotR>
+                <xUU>-0.002859</xUU>
+                <xU>-1.024</xU>
+                <yVV>0</yVV>
+                <yV>0</yV>
+                <zWW>0</zWW>
+                <zW>0</zW>
+                <kPP>0</kPP>
+                <kP>0</kP>
+                <mQQ>0</mQQ>
+                <mQ>0</mQ>
+                <nRR>0</nRR>
+                <nR>0</nR>
+            </plugin>
+    	   
+
+			<!--
+			<plugin
+				filename="libignition-gazebo-diff-drive-system.so"
+				name="ignition::gazebo::systems::DiffDrive">
+				<left_joint>left_wheel_joint</left_joint>
+				<right_joint>right_wheel_joint</right_joint>
+				<wheel_separation>1.2</wheel_separation>
+				<wheel_radius>0.4</wheel_radius>
+				<odom_publish_frequency>1</odom_publish_frequency>
+				<topic>cmd_vel</topic>
+			</plugin>
+			-->
+        </model>
+
+		<plugin filename="libignition-gazebo-triggered-publisher-system.so"
+				name="ignition::gazebo::systems::TriggeredPublisher">
+			<input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+				<match field="data">16777235</match>
+			</input>
+			<output type="ignition.msgs.Twist" topic="/cmd_vel">
+				linear: {x: 5.5}, angular: {z: 0.0}
+			</output>
+		</plugin>
+
+		<!-- moving backwards -->
+		<plugin filename="libignition-gazebo-triggered-publisher-system.so"
+				name="ignition::gazebo::systems::TriggeredPublisher">
+			<input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+				<match field="data">16777237</match>
+			</input>
+			<output type="ignition.msgs.Twist" topic="/cmd_vel">
+				linear: {x: -5.5}, angular: {z: 0.0}
+			</output>
+		</plugin>
+
+
+		<plugin filename="libignition-gazebo-triggered-publisher-system.so"
+				name="ignition::gazebo::systems::TriggeredPublisher">
+			<input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+				<match field="data">16777234</match>
+			</input>
+			<output type="ignition.msgs.Twist" topic="/cmd_vel">
+				linear: {x: 0.0}, angular: {z: 0.5}
+			</output>
+		</plugin>
+
+        
+		
+        
+    </world>
+</sdf>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
